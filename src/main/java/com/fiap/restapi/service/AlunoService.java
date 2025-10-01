@@ -2,10 +2,12 @@ package com.fiap.restapi.service;
 
 import com.fiap.restapi.model.Aluno;
 import com.fiap.restapi.repository.AlunoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AlunoService {
 
     private final AlunoRepository repo;
