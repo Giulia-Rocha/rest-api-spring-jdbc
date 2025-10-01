@@ -1,10 +1,12 @@
 package com.fiap.restapi.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+
 public class Professor {
     private Long id;
     private String nome;
@@ -12,5 +14,4 @@ public class Professor {
     private String email;
     private String titulacao;
 
-    public Professor(Long id, String nome, String departamento) {}
 }

@@ -15,35 +15,35 @@ import java.util.Optional;
 @Repository
 public class ProfessorRepository {
 
-    public Professor adicionar(Professor p) {
-        final String sql = "INSERT INTO PROFESSOR (NOME,DEPARTAMENTO,EMAIL,TITULACAO) VALUES (?,?,?,?)";
-        try(Connection conn = ConnectionFactory.getConnection();
-            PreparedStatement st = conn.prepareStatement(sql, new String[] { "ID" }))   {
+public Professor adicionar(Professor p) {
+    final String sql = "INSERT INTO PROFESSOR (NOME,DEPARTAMENTO,EMAIL,TITULACAO) VALUES (?,?,?,?)";
+    try(Connection conn = ConnectionFactory.getConnection();
+        PreparedStatement st = conn.prepareStatement(sql, new String[] { "ID" }))   {
 
-            st.setString(1, p.getNome());
-            st.setString(2, p.getDepartamento());
-            st.setString(3, p.getNome());
-            st.setString(4,p.getTitulacao());
-            st.executeUpdate();
+        st.setString(1, p.getNome());
+        st.setString(2, p.getDepartamento());
+        st.setString(3, p.getEmail());
+        st.setString(4,p.getTitulacao());
+        st.executeUpdate();
 
-            try(ResultSet rs = st.getGeneratedKeys()){
-                if(rs.next()){
-                    p.setId(rs.getLong(1));
-                }else{
-                    try(PreparedStatement st2 = conn.prepareStatement(
-                            "SELECT MAX(ID) FROM PROFESSOR"
-                    )){
-                        try(ResultSet rs2 = st2.executeQuery()){
-                            if(rs2.next()) p.setId(rs2.getLong(1));
-                        }
+        try(ResultSet rs = st.getGeneratedKeys()){
+            if(rs.next()){
+                p.setId(rs.getLong(1));
+            }else{
+                try(PreparedStatement st2 = conn.prepareStatement(
+                        "SELECT MAX(ID) FROM PROFESSOR"
+                )){
+                    try(ResultSet rs2 = st2.executeQuery()){
+                        if(rs2.next()) p.setId(rs2.getLong(1));
                     }
                 }
             }
-            return p;
-        }catch(SQLException e){
-            throw new RuntimeException("Erro ao inserir o professor" + e.getMessage());
         }
+        return p;
+    }catch(SQLException e){
+        throw new RuntimeException("Erro ao inserir o professor" + e.getMessage());
     }
+}
 
     public Optional<Professor> buscarPorId(Long id) {
         final String sql = "SELECT ID,NOME,DEPARTAMENTO,EMAIL,TITULACAO FROM PROFESSOR WHERE ID = ?";
@@ -70,15 +70,21 @@ public class ProfessorRepository {
     }
 
     public List<Professor> buscarTodos(){
-        final String sql = "SELECT ID, NOME,DEPARTAMENTO FROM PROFESSOR ORDER BY ID";
+        final String sql = "SELECT ID, NOME,DEPARTAMENTO,EMAIL,TITULACAO FROM PROFESSOR ORDER BY ID";
         try(Connection conn = ConnectionFactory.getConnection();
-            PreparedStatement st = conn.prepareStatement(sql)){
-            ResultSet rs = st.executeQuery();
+            PreparedStatement st = conn.prepareStatement(sql);
+            ResultSet rs = st.executeQuery()){
+
+
             List<Professor> lista = new ArrayList<>();
+
             while(rs.next()){
-                lista.add(new Professor(rs.getLong("ID"),
+                lista.add(new Professor(
+                        rs.getLong("ID"),
                         rs.getString("NOME"),
-                        rs.getString("DEPARTAMENTO")));
+                        rs.getString("DEPARTAMENTO"),
+                        rs.getString("EMAIL"),
+                        rs.getString("TITULACAO")));
             }
             return lista;
 

@@ -37,6 +37,8 @@ public class ConnectionFactory {
             throw new SQLException("Credenciais do banco de dados não foram configuradas (nem via environment variables, nem via application.properties)");
         }
 
-        return DriverManager.getConnection(url, user, pass);
+        Connection conn = DriverManager.getConnection(url, user, pass);
+        conn.setAutoCommit(false);
+        return conn;
     }
 }
