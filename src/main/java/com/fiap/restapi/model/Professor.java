@@ -12,4 +12,5 @@ public class Professor {
     private String email;
     private String titulacao;
 
+    public Professor(Long id, String nome, String departamento) {}
 }
