@@ -45,7 +45,7 @@ public class ProfessorRepository {
         }
     }
 
-    Optional<Professor> buscarPorId(Long id) {
+    public Optional<Professor> buscarPorId(Long id) {
         final String sql = "SELECT ID,NOME,DEPARTAMENTO,EMAIL,TITULACAO FROM PROFESSOR WHERE ID = ?";
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement st = conn.prepareStatement(sql)){
@@ -87,7 +87,7 @@ public class ProfessorRepository {
         }
     }
 
-    Optional<Professor> atualizar(Long id, Professor p) {
+    public Optional<Professor> atualizar(Long id, Professor p) {
         final String sql = "UPDATE PROFESSOR SET NOME = ?, DEPARTAMENTO = ?, EMAIL = ?, TITULACAO = ? WHERE ID = ?";
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement st = conn.prepareStatement(sql)){
@@ -107,7 +107,7 @@ public class ProfessorRepository {
         }
     }
 
-    boolean deletar(Long id){
+    public boolean deletar(Long id){
         final String sql = "DELETE FROM PROFESSOR WHERE ID = ?";
         try(Connection conn = ConnectionFactory.getConnection();
             PreparedStatement st = conn.prepareStatement(sql)){
